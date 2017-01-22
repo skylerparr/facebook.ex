@@ -333,7 +333,7 @@ defmodule Facebook do
   """
   @spec debug_token(String.t) :: Map.t
   def debug_token(input_token) do
-    params [
+    params = [
       input_token: input_token,
       access_token: Application.fetch_env!(:facebook, :access_token)
     ]
