@@ -305,6 +305,43 @@ defmodule Facebook do
       |> getAccessToken
   end
 
+  @doc """
+  Debug an access token received from a client. You must set the access_token in your config
+  config :facebook, :access_token, System.get_env("FACEBOOK_ACCESS_TOKEN)
+
+  ## Examples
+    iex> Facebook.debug_token("input_token")
+    %{
+      "data": {
+      "app_id": 138483919580948, 
+      "application": "Social Cafe", 
+      "expires_at": 1352419328, 
+      "is_valid": true, 
+      "issued_at": 1347235328, 
+      "metadata": {
+        "sso": "iphone-safari"
+      }, 
+      "scopes": [
+        "email", 
+        "publish_actions"
+      ], 
+      "user_id": 1207059
+      }
+    }
+  See: https://developers.facebook.com/docs/facebook-login/manually-build-a-login-flow#checktoken
+  To get access token, go here: https://developers.facebook.com/tools/accesstoken/
+  """
+  @spec debug_token(String.t, String.t) :: Map.t
+  def debug_token(input_token) do
+    params [
+      input_token: input_token,
+      access_token: Application.fetch_env!(:facebook, :access_token)
+    ]
+
+    Facebook.Graph.get(~s(/debug_token), params)
+      |> get_debug_token
+  end
+
   # Provides the summary of a GET request when the 'summary' query parameter is
   # set to true.
   defp getSummary(summary_response) do
@@ -317,6 +354,13 @@ defmodule Facebook do
   # Extract the access token from the access token response
   defp getAccessToken(access_token_response) do
     case access_token_response do
+      {:json, %{"error" => error}} -> %{"error" => error}
+      {:json, info_map} -> info_map
+    end
+  end
+
+  defp get_debug_token(response) do
+    case response do
       {:json, %{"error" => error}} -> %{"error" => error}
       {:json, info_map} -> info_map
     end
