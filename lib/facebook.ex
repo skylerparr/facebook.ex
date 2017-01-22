@@ -331,7 +331,7 @@ defmodule Facebook do
   See: https://developers.facebook.com/docs/facebook-login/manually-build-a-login-flow#checktoken
   To get access token, go here: https://developers.facebook.com/tools/accesstoken/
   """
-  @spec debug_token(String.t, String.t) :: Map.t
+  @spec debug_token(String.t) :: Map.t
   def debug_token(input_token) do
     params [
       input_token: input_token,
