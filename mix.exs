@@ -3,7 +3,7 @@ Code.ensure_loaded?(Hex) and Hex.start
 defmodule Facebook.Mixfile do
   use Mix.Project
 
-  def project do
+  def project() do
     [
       app: :facebook,
       version: "0.11.0",
@@ -16,7 +16,7 @@ defmodule Facebook.Mixfile do
   end
 
   # Configuration for the OTP application
-  def application do
+  def application() do
     [
       mod: { Facebook, [] },
       applications: [:json, :hackney, :logger],
@@ -28,14 +28,14 @@ defmodule Facebook.Mixfile do
     ]
   end
 
-  defp description do
+  defp description() do
     """
     Facebook Graph API Wrapper written in Elixir.
     Please note, this is very much a work in progress. Feel free to contribute using pull requests.
     """
   end
 
-  defp package do
+  defp package() do
     [
       licenses: ["MIT"],
       links: %{
@@ -48,7 +48,7 @@ defmodule Facebook.Mixfile do
     ]
   end
 
-  defp deps do
+  defp deps() do
     [
       {:json, ">= 0.3.3"},
       {:hackney, "~> 1.6"},
