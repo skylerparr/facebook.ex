@@ -363,6 +363,9 @@ defmodule Facebook do
     case response do
       {:json, %{"error" => error}} -> %{"error" => error}
       {:json, info_map} -> info_map
+      {:error, :closed} -> %{"error" => %{"data" => %{"error" => "message" => %{"Connection closed"}}}}
+      {:error, :timeout} -> %{"error" => %{"data" => %{"error" => "message" => %{"Connection timed out"}}}
+      _ -> %{"error" => "Unknown error"}
     end
   end
 
